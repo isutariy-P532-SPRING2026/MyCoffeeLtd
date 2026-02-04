@@ -1,0 +1,329 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="MyCoffeeLtd.MainWindow"
+        Width="1120" Height="720"
+        Title="MyCoffee Ltd — Ordering System"
+        Background="#1E1E2E">
+
+  <!--  STYLES  -->
+  <Window.Styles>
+
+    <!-- Main container -->
+    <Style Selector="Border.AppShell">
+      <Setter Property="CornerRadius" Value="24"/>
+      <Setter Property="Background" Value="#F8F9FA"/>
+    </Style>
+
+    <!-- Header -->
+    <Style Selector="Border.HeaderBar">
+      <Setter Property="CornerRadius" Value="24"/>
+      <Setter Property="Background" Value="#7A4B2A"/>
+    </Style>
+
+    <!-- Menu cards -->
+    <Style Selector="Border.MenuCard">
+      <Setter Property="CornerRadius" Value="16"/>
+      <Setter Property="Background" Value="White"/>
+      <Setter Property="BorderBrush" Value="#E9ECEF"/>
+      <Setter Property="BorderThickness" Value="2"/>
+    </Style>
+
+    <!-- Primary button (Add / Place Order) -->
+    <Style Selector="Button.PrimaryBtn">
+      <Setter Property="Background" Value="#D4693A"/>
+      <Setter Property="Foreground" Value="White"/>
+      <Setter Property="BorderBrush" Value="#D4693A"/>
+      <Setter Property="CornerRadius" Value="12"/>
+      <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+    <Style Selector="Button.PrimaryBtn:pointerover">
+      <Setter Property="Background" Value="#B8472F"/>
+      <Setter Property="BorderBrush" Value="#B8472F"/>
+    </Style>
+
+    <!-- Secondary button -->
+    <Style Selector="Button.SecondaryBtn">
+      <Setter Property="Background" Value="#000000"/>
+      <Setter Property="Opacity" Value="0.06"/>
+      <Setter Property="BorderBrush" Value="#000000"/>
+      <Setter Property="CornerRadius" Value="12"/>
+      <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+
+    <!-- Cart panel background -->
+    <Style Selector="Border.CartPanel">
+      <Setter Property="Background" Value="#CFE6FB"/>
+    </Style>
+
+    <!-- Tip option button look -->
+    <Style Selector="RadioButton.TipOption">
+      <Setter Property="CornerRadius" Value="10"/>
+      <Setter Property="Padding" Value="10,8"/>
+      <Setter Property="Background" Value="#FFFFFF"/>
+      <Setter Property="BorderBrush" Value="#000000"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Opacity" Value="0.45"/>
+    </Style>
+    <Style Selector="RadioButton.TipOption:checked">
+      <Setter Property="Background" Value="#8B5A3C"/>
+      <Setter Property="BorderBrush" Value="#8B5A3C"/>
+      <Setter Property="Opacity" Value="1"/>
+    </Style>
+
+    <!-- Selected radio text colors -->
+    <Style Selector="RadioButton.TipOption:checked TextBlock">
+      <Setter Property="Foreground" Value="White"/>
+    </Style>
+
+  </Window.Styles>
+
+  <!--  OUTER BACKGROUND  -->
+  <Grid Margin="22">
+    <Border Classes="AppShell" Padding="0">
+      <Grid RowDefinitions="Auto,*" ColumnDefinitions="*,600">
+
+        <!-- HEADER -->
+        <Border Grid.ColumnSpan="2" Classes="HeaderBar" Padding="22">
+          <Grid ColumnDefinitions="*,Auto">
+            <StackPanel Spacing="3">
+              <TextBlock Text="☕  MyCoffee Ltd."
+                         FontSize="30"
+                         FontWeight="Bold"
+                         Foreground="White"/>
+              <TextBlock Text="Ordering System — Premium Experience"
+                         FontSize="13"
+                         Foreground="#F3EDE7"/>
+            </StackPanel>
+
+            <Border Grid.Column="1"
+                    CornerRadius="18"
+                    Background="#FFFFFF"
+                    Opacity="0.22"
+                    Padding="14,8"
+                    VerticalAlignment="Center">
+              <TextBlock Text="http://localhost:6080"
+                         Foreground="White"
+                         FontSize="12"/>
+            </Border>
+          </Grid>
+        </Border>
+
+        <!-- LEFT: MENU -->
+        <ScrollViewer Grid.Row="1" Grid.Column="0" Margin="22,18,12,22">
+          <StackPanel Spacing="16">
+            <TextBlock Text="Our Menu"
+                       FontSize="26"
+                       FontWeight="Bold"
+                       Foreground="#2C3E50"/>
+
+            <!-- Espresso -->
+            <Border Classes="MenuCard" Padding="18">
+              <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto">
+                <TextBlock Text="☕  Espresso Shot" FontSize="18" FontWeight="SemiBold" Foreground="#2C3E50"/>
+                <TextBlock Grid.Row="1" Text="Strong, small, and classic." Foreground="#6C757D"/>
+                <TextBlock Grid.Row="2" Text="$2.49" FontSize="20" FontWeight="Bold" Foreground="#8B5A3C" Margin="0,8,0,0"/>
+
+                <Button Grid.Column="1" Grid.RowSpan="3"
+                        Content="Add to Cart"
+                        Width="140" Height="46"
+                        Classes="PrimaryBtn"
+                        VerticalAlignment="Center"
+                        Click="AddEspresso_Click"/>
+              </Grid>
+            </Border>
+
+            <!-- Dark Roast -->
+            <Border Classes="MenuCard" Padding="18">
+              <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto">
+                <TextBlock Text="🌙  Dark Roast" FontSize="18" FontWeight="SemiBold" Foreground="#2C3E50"/>
+                <TextBlock Grid.Row="1" Text="Bold roast with deep flavor." Foreground="#6C757D"/>
+                <TextBlock Grid.Row="2" Text="$3.19" FontSize="20" FontWeight="Bold" Foreground="#8B5A3C" Margin="0,8,0,0"/>
+
+                <Button Grid.Column="1" Grid.RowSpan="3"
+                        Content="Add to Cart"
+                        Width="140" Height="46"
+                        Classes="PrimaryBtn"
+                        VerticalAlignment="Center"
+                        Click="AddDarkRoast_Click"/>
+              </Grid>
+            </Border>
+
+            <!-- House Blend -->
+            <Border Classes="MenuCard" Padding="18">
+              <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto">
+                <TextBlock Text="🏡  House Blend" FontSize="18" FontWeight="SemiBold" Foreground="#2C3E50"/>
+                <TextBlock Grid.Row="1" Text="Smooth everyday coffee." Foreground="#6C757D"/>
+                <TextBlock Grid.Row="2" Text="$2.99" FontSize="20" FontWeight="Bold" Foreground="#8B5A3C" Margin="0,8,0,0"/>
+
+                <Button Grid.Column="1" Grid.RowSpan="3"
+                        Content="Add to Cart"
+                        Width="140" Height="46"
+                        Classes="PrimaryBtn"
+                        VerticalAlignment="Center"
+                        Click="AddHouseBlend_Click"/>
+              </Grid>
+            </Border>
+
+            <!-- Decaf -->
+            <Border Classes="MenuCard" Padding="18">
+              <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto">
+                <TextBlock Text="🍃  Decaf Coffee" FontSize="18" FontWeight="SemiBold" Foreground="#2C3E50"/>
+                <TextBlock Grid.Row="1" Text="Taste without the caffeine." Foreground="#6C757D"/>
+                <TextBlock Grid.Row="2" Text="$2.79" FontSize="20" FontWeight="Bold" Foreground="#8B5A3C" Margin="0,8,0,0"/>
+
+                <Button Grid.Column="1" Grid.RowSpan="3"
+                        Content="Add to Cart"
+                        Width="140" Height="46"
+                        Classes="PrimaryBtn"
+                        VerticalAlignment="Center"
+                        Click="AddDecaf_Click"/>
+              </Grid>
+            </Border>
+
+            <!-- Tip note -->
+            <Border CornerRadius="8" Background="#FFF2D7" BorderBrush="#FFC864" BorderThickness="3" Padding="12">
+              <StackPanel Spacing="4">
+                <TextBlock Text="💡 Tip: Select an item in the cart to remove it."
+                           Foreground="#2C3E50"/>
+                <TextBlock Text="Tip and tax are applied automatically."
+                           Foreground="#2C3E50"/>
+              </StackPanel>
+            </Border>
+
+          </StackPanel>
+        </ScrollViewer>
+
+        <!-- RIGHT: CART -->
+        <Border Grid.Row="1"
+                Grid.Column="1"
+                Background="#CFE6FB"
+                Padding="20">
+
+          <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="18">
+
+              <!-- Title -->
+              <TextBlock Text="Your Cart"
+                        FontSize="24"
+                        FontWeight="Bold"
+                        Foreground="#1565C0"/>
+
+              <!-- Cart List -->
+              <Border CornerRadius="16"
+                      Background="White"
+                      Padding="10"
+                      Height="200">
+                <ListBox x:Name="CartList"
+                        Background="Transparent"
+                        BorderThickness="0"/>
+              </Border>
+
+              <!-- Subtotal + Tax -->
+              <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                <TextBlock Text="Subtotal"/>
+                <TextBlock x:Name="SubtotalText" Grid.Column="1"/>
+
+                <TextBlock Grid.Row="1" Text="Tax (8%)"/>
+                <TextBlock x:Name="TaxText" Grid.Row="1" Grid.Column="1"/>
+              </Grid>
+
+              <!-- Tip Section -->
+              <TextBlock Text="Tip Options"
+                        FontWeight="SemiBold"
+                        FontSize="16"/>
+
+              <!-- Tip Buttons -->
+              <Grid ColumnDefinitions="*,*,*,*,*" ColumnSpacing="8">
+                <RadioButton GroupName="TipGroup"
+                            Tag="0"
+                            IsChecked="True"
+                            Checked="TipOption_Checked">
+                  <StackPanel>
+                    <TextBlock Text="0%" FontWeight="Bold"/>
+                    <TextBlock x:Name="Tip0Amt" FontSize="11"/>
+                  </StackPanel>
+                </RadioButton>
+
+                <RadioButton Grid.Column="1" GroupName="TipGroup" Tag="10" Checked="TipOption_Checked">
+                  <StackPanel>
+                    <TextBlock Text="10%" FontWeight="Bold"/>
+                    <TextBlock x:Name="Tip10Amt" FontSize="11"/>
+                  </StackPanel>
+                </RadioButton>
+
+                <RadioButton Grid.Column="2" GroupName="TipGroup" Tag="15" Checked="TipOption_Checked">
+                  <StackPanel>
+                    <TextBlock Text="15%" FontWeight="Bold"/>
+                    <TextBlock x:Name="Tip15Amt" FontSize="11"/>
+                  </StackPanel>
+                </RadioButton>
+
+                <RadioButton Grid.Column="3" GroupName="TipGroup" Tag="20" Checked="TipOption_Checked">
+                  <StackPanel>
+                    <TextBlock Text="20%" FontWeight="Bold"/>
+                    <TextBlock x:Name="Tip20Amt" FontSize="11"/>
+                  </StackPanel>
+                </RadioButton>
+
+                <RadioButton Grid.Column="4" GroupName="TipGroup" Tag="CUSTOM" Checked="TipOption_Checked">
+                  <StackPanel>
+                    <TextBlock Text="Custom" FontWeight="Bold"/>
+                    <TextBlock Text="enter" FontSize="11"/>
+                  </StackPanel>
+                </RadioButton>
+              </Grid>
+
+              <!-- Custom Tip -->
+              <StackPanel>
+                <TextBlock Text="Custom Tip Amount" FontSize="12"/>
+                <TextBox x:Name="CustomTipBox"
+                        IsEnabled="False"
+                        Watermark="0.00"
+                        TextChanged="CustomTipBox_TextChanged"/>
+              </StackPanel>
+
+              <!-- Total -->
+              <Border Background="White"
+                      CornerRadius="14"
+                      Padding="12">
+                <Grid ColumnDefinitions="*,Auto">
+                  <TextBlock Text="Total"
+                            FontSize="24"
+                            FontWeight="Bold"
+                            Foreground="#1565C0"/>
+                  <TextBlock x:Name="TotalText"
+                            Grid.Column="1"
+                            FontSize="24"
+                            FontWeight="Bold"
+                            Foreground="#1565C0"/>
+                </Grid>
+              </Border>
+
+              <!-- Buttons -->
+              <StackPanel Spacing="10">
+                <Grid ColumnDefinitions="*,*"
+                      ColumnSpacing="10">
+                  <Button Content="Remove Selected"
+                          Click="RemoveSelected_Click"/>
+                  <Button Grid.Column="1"
+                          Content="Clear Cart"
+                          Click="ClearCart_Click"/>
+                </Grid>
+
+                <Button Content="Place Order"
+                        Height="48"
+                        Click="PlaceOrder_Click"
+                        Background="#D4693A"
+                        Foreground="White"
+                        FontWeight="Bold"/>
+              </StackPanel>
+
+            </StackPanel>
+          </ScrollViewer>
+        </Border>
+
+
+      </Grid>
+    </Border>
+  </Grid>
+</Window>
