@@ -1,0 +1,14 @@
+# .NET build outputs
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.cache
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
