@@ -85,8 +85,5 @@ The project follows a structured branching strategy:
 
 - `main` → Stable, merged code
 - `task-1-base-code` → Task 1 implementation (merged via PR)
-
-Future tasks will follow the same pattern:
-```text
-task-2-<feature>
-task-3-<feature>
+- `task-2-condiments` → Task 2 implementation
+- `task-3` → Implemented the decorator pattern
