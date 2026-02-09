@@ -17,7 +17,7 @@ This repository follows a **task-based Git workflow**, where each assignment tas
 
 ---
 
-## ✅ Task 1 — Base Ordering System
+## 📌 Task 1 — Base Ordering System
 
 Task 1 implements the **core functionality and UI foundation** of the ordering system.
 
@@ -41,6 +41,19 @@ Task 1 implements the **core functionality and UI foundation** of the ordering s
 - Order confirmation dialog
 
 ---
+
+## 📌 Task 2 Enhancement – Condiments Support
+
+### New Additions
+- Optional condiments applied to drinks:
+  - Steamed Milk (+$0.30)
+  - Soy (+$0.40)
+  - Mocha (+$0.50)
+  - Chocolate (+$0.45)
+  - Whipped Milk (+$0.35)
+- Condiments apply to the **next item added**
+- Price updates automatically
+- Description updates in cart
 
 ## 🖥️ User Interface
 
