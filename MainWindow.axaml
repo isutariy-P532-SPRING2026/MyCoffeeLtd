@@ -180,7 +180,8 @@
               </Grid>
             </Border>
 
-            <!-- Tip note -->
+            <!-- Tip note  -->
+            
             <Border CornerRadius="8" Background="#FFF2D7" BorderBrush="#FFC864" BorderThickness="3" Padding="12">
               <StackPanel Spacing="4">
                 <TextBlock Text="💡 Tip: Select an item in the cart to remove it."
@@ -190,6 +191,36 @@
               </StackPanel>
             </Border>
 
+          
+
+            <!-- Condiments Panel -->
+            <Border CornerRadius="16"
+                    Background="#FFF7ED"
+                    BorderBrush="#FDBA74"
+                    BorderThickness="1"
+                    Padding="12"
+                    Margin="0,0,0,12">
+
+              <StackPanel Spacing="8">
+                <TextBlock Text="Condiments (applies to next item you add)"
+                          FontWeight="SemiBold"
+                          Foreground="#7C2D12"/>
+
+                <WrapPanel>
+                  <CheckBox x:Name="ChkSteamedMilk" Content="Steamed Milk (+$0.30)" Margin="6"/>
+                  <CheckBox x:Name="ChkSoy" Content="Soy (+$0.40)" Margin="6"/>
+                  <CheckBox x:Name="ChkMocha" Content="Mocha (+$0.50)" Margin="6"/>
+                  <CheckBox x:Name="ChkChocolate" Content="Chocolate (+$0.45)" Margin="6"/>
+                  <CheckBox x:Name="ChkWhippedMilk" Content="Whipped Milk (+$0.35)" Margin="6"/>
+                </WrapPanel>
+
+
+                <TextBlock Text="Tip: Select condiments, then click Add to Cart for any drink."
+                          FontSize="12"
+                          Foreground="#9A3412"
+                          Opacity="0.85"/>
+              </StackPanel>
+            </Border>
           </StackPanel>
         </ScrollViewer>
 
