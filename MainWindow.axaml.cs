@@ -13,20 +13,19 @@ public partial class MainWindow : Window
 {
     private const decimal TaxRate = 0.08m;
 
-    private readonly ObservableCollection<Beverage> _cart = new();
+    // IMPORTANT CHANGE:
+    // UI works with BeverageViewModel, not Beverage
+    private readonly ObservableCollection<BeverageViewModel> _cart = new();
 
-    private decimal _selectedTipRate = 0.00m;      // 0 / 0.10 / 0.15 / 0.20
-    private bool _customTipSelected = false;       // true only when Custom is selected
-    private decimal _customTipAmount = 0.00m;      // custom dollar amount
+    private decimal _selectedTipRate = 0.00m;
+    private bool _customTipSelected = false;
+    private decimal _customTipAmount = 0.00m;
 
     public MainWindow()
     {
         InitializeComponent();
 
-        // Bind cart once so UI updates automatically on Add/Remove/Clear
         CartList.ItemsSource = _cart;
-
-        // Default state: 0% tip selected, custom disabled
         CustomTipBox.IsEnabled = false;
 
         UpdateCartUI();
@@ -45,14 +44,10 @@ public partial class MainWindow : Window
     private void AddDecaf_Click(object? sender, RoutedEventArgs e)
         => AddToCart(new Decaf());
 
-
-   
-
-  
     // ---------- Cart Actions ----------
     private void RemoveSelected_Click(object? sender, RoutedEventArgs e)
     {
-        if (CartList.SelectedItem is Beverage selected)
+        if (CartList.SelectedItem is BeverageViewModel selected)
         {
             _cart.Remove(selected);
             UpdateCartUI();
@@ -65,7 +60,7 @@ public partial class MainWindow : Window
         UpdateCartUI();
     }
 
-    // ---------- Tip Selection (Radio Buttons) ----------
+    // ---------- Tip Selection ----------
     private void TipOption_Checked(object? sender, RoutedEventArgs e)
     {
         if (sender is not RadioButton rb) return;
@@ -76,15 +71,12 @@ public partial class MainWindow : Window
         {
             _customTipSelected = true;
             CustomTipBox.IsEnabled = true;
-            // Rate not used for custom
             _selectedTipRate = 0.00m;
         }
         else
         {
             _customTipSelected = false;
             CustomTipBox.IsEnabled = false;
-
-            // Clear custom tip when leaving custom mode
             CustomTipBox.Text = "";
             _customTipAmount = 0.00m;
 
@@ -100,27 +92,14 @@ public partial class MainWindow : Window
         UpdateCartUI();
     }
 
-    // Custom tip enabled only when Custom selected
     private void CustomTipBox_TextChanged(object? sender, TextChangedEventArgs e)
     {
         if (!_customTipSelected) return;
 
-        if (string.IsNullOrWhiteSpace(CustomTipBox.Text))
-        {
-            _customTipAmount = 0.00m;
-            UpdateCartUI();
-            return;
-        }
-
-        // Parse safely
         if (decimal.TryParse(CustomTipBox.Text, out var val) && val >= 0)
-        {
             _customTipAmount = val;
-        }
         else
-        {
             _customTipAmount = 0.00m;
-        }
 
         UpdateCartUI();
     }
@@ -134,10 +113,9 @@ public partial class MainWindow : Window
             return;
         }
 
-        var subtotal = _cart.Sum(x => x.Cost());
+        var subtotal = _cart.Sum(x => (decimal)x.Price);
         var tax = subtotal * TaxRate;
 
-        // Tip based on (subtotal + tax) as you requested
         var baseForTip = subtotal + tax;
         var tipChosen = _customTipSelected ? _customTipAmount : baseForTip * _selectedTipRate;
 
@@ -149,53 +127,50 @@ public partial class MainWindow : Window
         await ShowMessage("Order Placed ✅", $"Thanks! Your total was ${total:0.00}.");
     }
 
-        private void ApplyCondiments(Beverage b)
+    // ---------- Decorator Application ----------
+    private void AddToCart(Beverage beverage)
     {
-        b.SteamedMilk = ChkSteamedMilk.IsChecked == true;
-        b.Soy = ChkSoy.IsChecked == true;
-        b.Mocha = ChkMocha.IsChecked == true;
-        b.Chocolate = ChkChocolate.IsChecked == true;
-        b.WhippedMilk = ChkWhippedMilk.IsChecked == true;
-    }
+        if (ChkSteamedMilk.IsChecked == true)
+            beverage = new SteamedMilk(beverage);
 
-    private void ResetCondiments()
-    {
+        if (ChkSoy.IsChecked == true)
+            beverage = new Soy(beverage);
+
+        if (ChkMocha.IsChecked == true)
+            beverage = new Mocha(beverage);
+
+        if (ChkChocolate.IsChecked == true)
+            beverage = new Chocolate(beverage);
+
+        if (ChkWhippedMilk.IsChecked == true)
+            beverage = new WhippedMilk(beverage);
+
+        // IMPORTANT CHANGE:
+        _cart.Add(new BeverageViewModel(beverage));
+
         ChkSteamedMilk.IsChecked = false;
         ChkSoy.IsChecked = false;
         ChkMocha.IsChecked = false;
         ChkChocolate.IsChecked = false;
         ChkWhippedMilk.IsChecked = false;
-    }
 
-    private void AddToCart(Beverage b)
-    {
-        ApplyCondiments(b);
-        _cart.Add(b);
-        ResetCondiments(); // optional: comment this if you want condiments to stay selected
         UpdateCartUI();
     }
 
     // ---------- UI Update ----------
     private void UpdateCartUI()
     {
-        var subtotal = _cart.Sum(x => x.Cost());
+        var subtotal = _cart.Sum(x => (decimal)x.Price);
         var tax = subtotal * TaxRate;
 
-        // Tip is calculated on (subtotal + tax)
         var baseForTip = subtotal + tax;
 
-        var tip0 = baseForTip * 0.00m;
-        var tip10 = baseForTip * 0.10m;
-        var tip15 = baseForTip * 0.15m;
-        var tip20 = baseForTip * 0.20m;
+        Tip0Amt.Text = $"${baseForTip * 0.00m:0.00}";
+        Tip10Amt.Text = $"${baseForTip * 0.10m:0.00}";
+        Tip15Amt.Text = $"${baseForTip * 0.15m:0.00}";
+        Tip20Amt.Text = $"${baseForTip * 0.20m:0.00}";
 
-        // show amounts under each tip option
-        Tip0Amt.Text = $"${tip0:0.00}";
-        Tip10Amt.Text = $"${tip10:0.00}";
-        Tip15Amt.Text = $"${tip15:0.00}";
-        Tip20Amt.Text = $"${tip20:0.00}";
-
-        decimal tipChosen = _customTipSelected ? _customTipAmount : baseForTip * _selectedTipRate;
+        var tipChosen = _customTipSelected ? _customTipAmount : baseForTip * _selectedTipRate;
         var total = subtotal + tax + tipChosen;
 
         SubtotalText.Text = $"${subtotal:0.00}";
