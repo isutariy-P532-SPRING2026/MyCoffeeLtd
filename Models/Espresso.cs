@@ -1,7 +1,14 @@
 namespace MyCoffeeLtd.Models;
 
-public sealed class Espresso : Beverage
+public class Espresso : Beverage
 {
-    public Espresso() { Description = "Espresso Shot"; }
-    protected override decimal BasePrice => 2.49m;
+    public override string GetDescription()
+    {
+        return "Espresso";
+    }
+
+    public override double Cost()
+    {
+        return 1.99;
+    }
 }

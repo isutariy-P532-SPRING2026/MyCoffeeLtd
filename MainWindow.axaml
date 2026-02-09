@@ -1,5 +1,6 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:models="clr-namespace:MyCoffeeLtd.Models"
         x:Class="MyCoffeeLtd.MainWindow"
         Width="1120" Height="720"
         Title="MyCoffee Ltd — Ordering System"
@@ -116,6 +117,35 @@
                        FontWeight="Bold"
                        Foreground="#2C3E50"/>
 
+            <!-- Condiments Panel -->
+            <Border CornerRadius="16"
+                    Background="#FFF7ED"
+                    BorderBrush="#FDBA74"
+                    BorderThickness="1"
+                    Padding="12"
+                    Margin="0,0,0,12">
+
+              <StackPanel Spacing="8">
+                <TextBlock Text="Condiments (applies to next item you add)"
+                          FontWeight="SemiBold"
+                          Foreground="#7C2D12"/>
+
+                <WrapPanel>
+                  <CheckBox x:Name="ChkSteamedMilk" Content="Steamed Milk (+$0.30)" Margin="6"/>
+                  <CheckBox x:Name="ChkSoy" Content="Soy (+$0.40)" Margin="6"/>
+                  <CheckBox x:Name="ChkMocha" Content="Mocha (+$0.50)" Margin="6"/>
+                  <CheckBox x:Name="ChkChocolate" Content="Chocolate (+$0.45)" Margin="6"/>
+                  <CheckBox x:Name="ChkWhippedMilk" Content="Whipped Milk (+$0.35)" Margin="6"/>
+                </WrapPanel>
+
+
+                <TextBlock Text="Tip: Select condiments, then click Add to Cart for any drink."
+                          FontSize="12"
+                          Foreground="#9A3412"
+                          Opacity="0.85"/>
+              </StackPanel>
+            </Border>
+          
             <!-- Espresso -->
             <Border Classes="MenuCard" Padding="18">
               <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto">
@@ -190,38 +220,10 @@
                            Foreground="#2C3E50"/>
               </StackPanel>
             </Border>
-
+          </StackPanel>
           
 
-            <!-- Condiments Panel -->
-            <Border CornerRadius="16"
-                    Background="#FFF7ED"
-                    BorderBrush="#FDBA74"
-                    BorderThickness="1"
-                    Padding="12"
-                    Margin="0,0,0,12">
-
-              <StackPanel Spacing="8">
-                <TextBlock Text="Condiments (applies to next item you add)"
-                          FontWeight="SemiBold"
-                          Foreground="#7C2D12"/>
-
-                <WrapPanel>
-                  <CheckBox x:Name="ChkSteamedMilk" Content="Steamed Milk (+$0.30)" Margin="6"/>
-                  <CheckBox x:Name="ChkSoy" Content="Soy (+$0.40)" Margin="6"/>
-                  <CheckBox x:Name="ChkMocha" Content="Mocha (+$0.50)" Margin="6"/>
-                  <CheckBox x:Name="ChkChocolate" Content="Chocolate (+$0.45)" Margin="6"/>
-                  <CheckBox x:Name="ChkWhippedMilk" Content="Whipped Milk (+$0.35)" Margin="6"/>
-                </WrapPanel>
-
-
-                <TextBlock Text="Tip: Select condiments, then click Add to Cart for any drink."
-                          FontSize="12"
-                          Foreground="#9A3412"
-                          Opacity="0.85"/>
-              </StackPanel>
-            </Border>
-          </StackPanel>
+            
         </ScrollViewer>
 
         <!-- RIGHT: CART -->
@@ -246,7 +248,23 @@
                       Height="200">
                 <ListBox x:Name="CartList"
                         Background="Transparent"
-                        BorderThickness="0"/>
+                        BorderThickness="0">
+
+                  <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType= "models:BeverageViewModel">
+                      <StackPanel Margin="6">
+                        <TextBlock Text="{Binding Description}"
+                                   FontWeight="SemiBold"
+                                   Foreground="#2C3E50"/>
+                        <TextBlock Text="{Binding Price, StringFormat=$ {0:0.00}}"
+                                   FontSize="12"
+                                   Foreground="#6C757D"/>
+                      </StackPanel>
+                    </DataTemplate>
+                  </ListBox.ItemTemplate>
+
+                </ListBox>
+
               </Border>
 
               <!-- Subtotal + Tax -->

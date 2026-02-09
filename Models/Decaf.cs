@@ -1,7 +1,15 @@
+
 namespace MyCoffeeLtd.Models;
 
-public sealed class Decaf : Beverage
+public class Decaf : Beverage
 {
-    public Decaf() { Description = "Decaf Coffee"; }
-    protected override decimal BasePrice => 2.79m;
+    public override string GetDescription()
+    {
+        return "Decaf Coffee";
+    }
+
+    public override double Cost()
+    {
+        return 2.79;
+    }
 }
