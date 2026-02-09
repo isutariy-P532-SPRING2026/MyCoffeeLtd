@@ -34,21 +34,29 @@ public partial class MainWindow : Window
 
     // ---------- Add Items ----------
     private void AddEspresso_Click(object? sender, RoutedEventArgs e)
-        => AddToCart(new Espresso());
+    {
+        _cart.Add(new Espresso());
+        UpdateCartUI();
+    }
 
     private void AddDarkRoast_Click(object? sender, RoutedEventArgs e)
-        => AddToCart(new DarkRoast());
+    {
+        _cart.Add(new DarkRoast());
+        UpdateCartUI();
+    }
 
     private void AddHouseBlend_Click(object? sender, RoutedEventArgs e)
-        => AddToCart(new HouseBlend());
+    {
+        _cart.Add(new HouseBlend());
+        UpdateCartUI();
+    }
 
     private void AddDecaf_Click(object? sender, RoutedEventArgs e)
-        => AddToCart(new Decaf());
+    {
+        _cart.Add(new Decaf());
+        UpdateCartUI();
+    }
 
-
-   
-
-  
     // ---------- Cart Actions ----------
     private void RemoveSelected_Click(object? sender, RoutedEventArgs e)
     {
@@ -147,32 +155,6 @@ public partial class MainWindow : Window
         UpdateCartUI();
 
         await ShowMessage("Order Placed ✅", $"Thanks! Your total was ${total:0.00}.");
-    }
-
-        private void ApplyCondiments(Beverage b)
-    {
-        b.SteamedMilk = ChkSteamedMilk.IsChecked == true;
-        b.Soy = ChkSoy.IsChecked == true;
-        b.Mocha = ChkMocha.IsChecked == true;
-        b.Chocolate = ChkChocolate.IsChecked == true;
-        b.WhippedMilk = ChkWhippedMilk.IsChecked == true;
-    }
-
-    private void ResetCondiments()
-    {
-        ChkSteamedMilk.IsChecked = false;
-        ChkSoy.IsChecked = false;
-        ChkMocha.IsChecked = false;
-        ChkChocolate.IsChecked = false;
-        ChkWhippedMilk.IsChecked = false;
-    }
-
-    private void AddToCart(Beverage b)
-    {
-        ApplyCondiments(b);
-        _cart.Add(b);
-        ResetCondiments(); // optional: comment this if you want condiments to stay selected
-        UpdateCartUI();
     }
 
     // ---------- UI Update ----------
